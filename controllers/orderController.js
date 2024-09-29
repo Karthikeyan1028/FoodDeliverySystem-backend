@@ -7,7 +7,7 @@ const stripe =  new Stripe(process.env.STRIPE_SECRET_KEY)
 // Placing user order for frontend
 const placeOrder = async (req, res) =>{
 
-    const frontend_url = 'http://localhost:5173';
+    const frontend_url = 'https://food-delivery-tomato-p.netlify.app';
     try {
         const newOrder = new orderModel({
             userId: req.body.userId,
@@ -21,7 +21,7 @@ const placeOrder = async (req, res) =>{
 
         const line_items = req.body.items.map((item)=>({
             price_data :{
-                currency: "lkr",
+                currency: "INR",
                 product_data:{
                     name: item.name
                 },
@@ -32,7 +32,7 @@ const placeOrder = async (req, res) =>{
 
         line_items.push({
             price_data :{
-                currency:"lkr",
+                currency:"INR",
                 product_data:{
                     name:"Delivery Charges"
                 },
@@ -82,16 +82,6 @@ const userOrders = async (req,res) => {
     }
 }
 
-// listing orders for admin panel
-const listOrders = async (req,res) =>{
-   try {
-    const orders = await orderModel.find({});
-    res.json({success:true, data:orders})
-   } catch (error) {
-        console.log(error)
-        res.json({success:false, message:"Error"})  
-   } 
-}
 
 // api for updating order status
 const updateStatus = async (req, res) =>{
